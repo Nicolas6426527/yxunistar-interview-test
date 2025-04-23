@@ -68,6 +68,33 @@ public class GeneratePurchaseReportUseCaseTest {
         // Assert
         assertThat(output.getRes()).isEqualTo(expect);
     }
+    @Test
+    void case3_success() {
+        // Arrange
+        GeneratePurchaseReportUseCaseInput input = new GeneratePurchaseReportUseCaseInput(
+                List.of(
+                        GeneratePurchaseReportUseCaseInput.PurchaseInput.builder().productName("pencil").price(2.99).quantity(2).build(),
+                        GeneratePurchaseReportUseCaseInput.PurchaseInput.builder().productName("shirt").price(29.99).quantity(1).build()
+                        ),
+                CountryEnum.NY.getName()
+        );
+        String expect =
+                """
+                        item              price        qty
+                        
+                        pencil            $2.99          2
+                        shirt            $29.99          1
+                        subtotal:                   $35.97
+                        tax:                         $0.55
+                        total:                      $36.52""";
+
+        // Act
+        GeneratePurchaseReportUseCaseOutput output = new GeneratePurchaseReportUseCaseOutput();
+        useCase.execute(input, output);
+
+        // Assert
+        assertThat(output.getRes()).isEqualTo(expect);
+    }
 
     @Test
     void productNotFound_throwIllegalArgumentException() {

@@ -29,11 +29,10 @@ public class Purchase {
     }
 
     private double round(Double price) {
-        BigDecimal bigDecimal = BigDecimal.valueOf(price);
-        BigDecimal multiply = bigDecimal.multiply(BigDecimal.valueOf(20));
-        BigDecimal bigDecimal1 = multiply.setScale(2, RoundingMode.CEILING);
-        BigDecimal divide = bigDecimal1.divide(BigDecimal.valueOf(20), RoundingMode.HALF_UP);
-        BigDecimal bigDecimal2 = divide.setScale(1, RoundingMode.CEILING);
-        return bigDecimal2.doubleValue();
+        return BigDecimal.valueOf(price)
+                .multiply(BigDecimal.valueOf(20))
+                .setScale(0, RoundingMode.CEILING)
+                .divide(BigDecimal.valueOf(20), 2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 }
