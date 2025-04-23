@@ -18,7 +18,7 @@ public class GeneratePurchaseReportUseCase {
     public void execute(GeneratePurchaseReportUseCaseInput input, GeneratePurchaseReportUseCaseOutput output) {
         List<Purchase> purchases = inputToDomain(input.getPurchaseInputs(), input.getCountryCode());
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("%-12s %10s %10s\n".formatted("item", "price", "qty"));
+        stringBuilder.append("%-12s %10s %10s\n\n".formatted("item", "price", "qty"));
         purchases.forEach(p -> stringBuilder.append("%-12s %10s %10d\n".formatted(p.getProduct().getName(), "$%s".formatted(p.getPrice()), p.getQuantity())));
         double subtotal = purchases.stream().mapToDouble(Purchase::getTotalPrice).sum();
         double totalTax = purchases.stream().mapToDouble(Purchase::getTotalTax).sum();
@@ -43,6 +43,6 @@ public class GeneratePurchaseReportUseCase {
         return PRODUCT_LIST.stream()
                 .filter(p -> p.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Not found product, name ='%s'".formatted(name)));
+                .orElseThrow(() -> new IllegalArgumentException("Not found product, name = '%s'.".formatted(name)));
     }
 }
